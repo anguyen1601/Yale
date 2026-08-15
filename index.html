@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yale Harkness Tower Postcard</title>
+<style>
+  :root {
+    --shadow: rgba(0,0,0,0.35);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 16px 80px;
+    background: #2a2a2a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #eee6d3;
+  }
+  
+  .stage {
+    perspective: 2400px;
+    width: 100%;
+    max-width: 750px;
+    margin-top: 40px;
+  }
+  
+  .postcard {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.55 / 1; 
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(.4,.2,.2,1);
+    cursor: pointer;
+  }
+  
+  .postcard.flipped { 
+    transform: rotateY(180deg); 
+  }
+  
+  .face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    background: #fdfffc; 
+    box-shadow: 0 10px 30px var(--shadow);
+    overflow: hidden;
+  }
+  
+  /* --- FRONT OF POSTCARD --- */
+  .face.front {
+    background: #000;
+  }
+  .face.front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* --- BACK OF POSTCARD --- */
+  .face.back {
+    transform: rotateY(180deg);
+    color: #000;
+    display: flex;
+    padding: 24px 20px 20px 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Left Section */
+  .back-left {
+    width: 48%;
+    padding-right: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .back-title {
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    letter-spacing: 0.2px;
+    margin-left: 55px; 
+  }
+  
+  .back-desc {
+    font-size: 10.5px;
+    line-height: 1.25;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+  
+  .photo-credit {
+    font-size: 8px;
+    text-align: center;
+    margin-top: 4px;
+  }
+  
+  .canada-stamp {
+    position: absolute;
+    top: -5px;
+    right: 0px;
+    width: 35px;
+    height: 25px;
+    text-align: center;
+  }
+  .canada-circle {
+    width: 24px;
+    height: 16px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    margin: 0 auto;
+    font-size: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .canada-number {
+    font-size: 8px;
+    margin-top: 2px;
+  }
+
+  /* Interactive Message Area */
+  .message-area {
+    flex-grow: 1;
+    margin-top: 15px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'Comic Sans MS', 'Caveat', cursive, sans-serif;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .message-area::placeholder {
+    color: #b3b3b3;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+  }
+
+  /* Center Vertical Text */
+  .back-center {
+    width: 4%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .vertical-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 9px;
+    white-space: nowrap;
+    position: absolute;
+    top: 55px;
+    bottom: 25px;
+    color: #000;
+  }
+
+  /* Right Section */
+  .back-right {
+    width: 48%;
+    position: relative;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* QR Code Section */
+  .qr-container {
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right: 15px;
+  }
+  
+  .qr-code {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #ccc;
+    padding: 2px;
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  
+  .qr-code:hover {
+    transform: scale(1.05);
+  }
+
+  .barcode-sub {
+    font-size: 9px;
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .post-card-title {
+    font-size: 38px;
+    font-weight: normal;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+
+  .address-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: auto;
+    padding-bottom: 35px; /* Leave space for bottom line */
+  }
+  
+  .address-input {
+    border: none;
+    border-bottom: 1px solid #000;
+    width: 100%;
+    background: transparent;
+    outline: none;
+    font-family: 'Comic Sans MS', 'Caveat', cursive, sans-serif;
+    font-size: 15px;
+    color: #333;
+    padding-bottom: 2px;
+  }
+
+  /* Bottom Exclusion Zone */
+  .exclusion-zone {
+    position: absolute;
+    bottom: 40px;
+    left: 50%; /* Meets the vertical text */
+    right: 0;
+    height: 1px;
+    background: #000;
+  }
+  
+  .exclusion-text {
+    position: absolute;
+    right: 40px;
+    bottom: 3px; /* Rests above the line */
+    font-size: 8.5px;
+    color: #000;
+  }
+
+  .instructions {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #999;
+    font-family: monospace;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="postcard" id="postcard" onclick="toggleFlip(event)">
+    
+    <!-- Front of Postcard -->
+    <div class="face front">
+      <!-- Fixed Front Image utilizing the provided reference file -->
+      <img src="1786740726868.png" alt="Yale Harkness Tower">
+    </div>
+    
+    <!-- Back of Postcard -->
+    <div class="face back">
+      
+      <div class="back-left">
+        <div class="back-title">YALE HARKNESS TOWER</div>
+        <div class="back-desc">
+          Harkness Tower was built between 1917 and 1921 by James<br>
+          Gamble Rogers (Class of 1889). Modeled on St. Botolph's<br>
+          tower in Boston, England, it was conceived as a memorial to<br>
+          a recently deceased alumnus, Charles W. Harkness.
+        </div>
+        <div class="photo-credit">
+          TM &copy; Photo: Thomas P. Benincas, Jr. &copy;
+        </div>
+        
+        <div class="canada-stamp">
+          <div class="canada-circle">PRINTED<br>IN<br>CANADA</div>
+          <div class="canada-number">0458-18</div>
+        </div>
+
+        <!-- Interactive Message Box -->
+        <textarea class="message-area" placeholder="Type your message here..."></textarea>
+      </div>
+      
+      <div class="back-center">
+        <div class="vertical-text">New England Photo; P.O. Box 626; Madison, CT 06443 &bull; www.nephotoct.com</div>
+      </div>
+      
+      <div class="back-right">
+        <!-- Interactive QR Code -->
+        <div class="qr-container">
+          <!-- Placeholder URL directing to Google Drive Video -->
+          <a href="https://drive.google.com/file/d/YOUR_VIDEO_ID_HERE/view" target="_blank" title="Scan or click to view video">
+            <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://drive.google.com/file/d/YOUR_VIDEO_ID_HERE/view" alt="QR Code Link to Drive">
+          </a>
+          <div class="barcode-sub">SCAN TO VIEW</div>
+        </div>
+        
+        <div class="post-card-title">Post Card</div>
+        
+        <!-- Interactive Address Lines -->
+        <div class="address-lines">
+          <input type="text" class="address-input" placeholder="Name">
+          <input type="text" class="address-input" placeholder="Address">
+          <input type="text" class="address-input" placeholder="City, State, Zip">
+          <input type="text" class="address-input" placeholder="Country">
+        </div>
+      </div>
+      
+      <!-- Exclusion zone matching the exact tiny part -->
+      <div class="exclusion-zone">
+        <div class="exclusion-text">Do not write in space below.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="instructions">
+  Click the edges of the postcard to flip.<br>
+  (Clicking the text fields or QR code will not flip the card so you can interact with them!)
+</div>
+
+<script>
+  function toggleFlip(e) {
+    // Prevent flip if clicking inside inputs, textareas, or links/QR code
+    if (
+      e.target.tagName === 'TEXTAREA' || 
+      e.target.tagName === 'INPUT' || 
+      e.target.tagName === 'A' || 
+      e.target.closest('a')
+    ) {
+      return;
+    }
+    document.getElementById('postcard').classList.toggle('flipped');
+  }
+</script>
+
+</body>
+</html>

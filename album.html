@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual Photo Album</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Playfair+Display:ital,wght@0,400;1,600&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: #f0eadd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Playfair Display', serif;
+  }
+
+  /* Album Music Player */
+  .album-music {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+  /* Album Container */
+  .album-scene {
+    perspective: 1500px;
+    width: 900px;
+    height: 600px;
+    position: relative;
+    display: flex;
+  }
+
+  /* Right Page (Static Base - Page 8) */
+  .page-right {
+    position: absolute;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-color: #fdfbf7;
+    box-shadow: inset 5px 0 15px rgba(0,0,0,0.1), 10px 10px 20px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    padding: 15px 25px;
+    border-radius: 0 8px 8px 0;
+    z-index: 1;
+    border-left: 2px solid #e3dec9; /* Middle spine line */
+  }
+
+  /* Flippable Leaves */
+  .leaf {
+    position: absolute;
+    right: 0; 
+    width: 50%;
+    height: 100%;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    cursor: pointer;
+  }
+
+  /* Initial Stacking Order for Leaves */
+  #leaf1 { z-index: 5; }
+  #leaf2 { z-index: 4; }
+  #leaf3 { z-index: 3; }
+  #leaf4 { z-index: 2; }
+
+  .leaf.flipped {
+    transform: rotateY(-180deg);
+  }
+
+  /* Shared Face properties */
+  .face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* Inner Front Pages */
+  .face.front {
+    background-color: #fdfbf7;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 25px;
+    box-shadow: inset 5px 0 15px rgba(0,0,0,0.1);
+    border-left: 2px solid #e3dec9; /* Middle spine line */
+  }
+
+  /* Front Cover (Yale Blue) */
+  .face.front.cover {
+    background-color: #0F4D92; 
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: inset 5px 0 15px rgba(0,0,0,0.3), 5px 5px 15px rgba(0,0,0,0.4);
+    background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.02) 75%, rgba(255,255,255,0.02)), 
+                      repeating-linear-gradient(-45deg, rgba(255,255,255,0.02) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.02) 75%, rgba(255,255,255,0.02));
+    background-size: 4px 4px;
+    border-left: none;
+  }
+
+  /* Spiral Binding Effect */
+  .spiral-binding {
+    position: absolute;
+    left: -15px;
+    top: 2%;
+    height: 96%;
+    width: 30px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 15px,
+      #b8860b 15px,
+      #8b6508 20px,
+      transparent 20px,
+      transparent 30px
+    );
+    z-index: 10;
+  }
+
+  /* Gold Corners */
+  .corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #d4af37;
+  }
+  .corner-top-right { top: 10px; right: 10px; border-bottom: none; border-left: none; }
+  .corner-bottom-right { bottom: 10px; right: 10px; border-top: none; border-left: none; }
+
+  /* Cover Photo & Text */
+  .cover-photo-slot {
+    width: 75%;
+    aspect-ratio: 4/3;
+    background: #000;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+  }
+  .cover-photo-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer; /* Added cursor for clickability */
+  }
+  .cover-title {
+    color: #d4af37;
+    font-size: 22px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+  }
+
+  /* New: Cover Date Input Field */
+  .cover-date-input {
+    background: transparent;
+    border: none;
+    color: #d4af37;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    letter-spacing: 4px;
+    text-align: center;
+    margin-top: 15px;
+    outline: none;
+    width: 60%;
+  }
+  .cover-date-input::placeholder {
+    color: rgba(212, 175, 55, 0.5);
+  }
+
+  /* Inside Left Page (Back of Leaves) */
+  .face.back {
+    background-color: #fdfbf7;
+    transform: rotateY(180deg);
+    box-shadow: inset -5px 0 15px rgba(0,0,0,0.1);
+    border-radius: 8px 0 0 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 25px;
+    border-left: none;
+  }
+  
+  /* Layout corresponding to the sketch */
+  .layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .top-section {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .bottom-section {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .photo-frame {
+    background: #fff;
+    padding: 8px 8px 22px 8px;
+    box-shadow: 2px 4px 10px rgba(0,0,0,0.15);
+    width: 48%; /* Larger photos */
+    transform: rotate(-2deg);
+    transition: transform 0.3s;
+  }
+  .photo-frame:nth-child(even) {
+    transform: rotate(2deg);
+  }
+  .photo-frame:hover {
+    transform: rotate(0deg) scale(1.05);
+    z-index: 10;
+  }
+  
+  .photo-frame img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    background: #e0e0e0;
+    cursor: pointer; /* Added cursor for clickability */
+  }
+
+  .text-block {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+  }
+
+  .page-title {
+    font-family: 'Caveat', cursive;
+    font-size: 32px;
+    color: #333;
+    border: none;
+    background: transparent;
+    outline: none;
+    margin-bottom: 5px;
+  }
+
+  .scrapbook-text {
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    color: #555;
+    background: transparent;
+    border: none;
+    resize: none;
+    width: 100%;
+    height: 55px;
+    outline: none;
+    line-height: 1.4;
+  }
+  .scrapbook-text::placeholder {
+    color: #b0a89d;
+  }
+
+  /* Modal / Lightbox Styles */
+  .modal {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .modal.active {
+    visibility: visible;
+    opacity: 1;
+  }
+  .modal-content {
+    max-width: 85%;
+    max-height: 85%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    border: 8px solid #fff;
+    border-radius: 4px;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+    object-fit: contain;
+  }
+  .modal.active .modal-content {
+    transform: scale(1);
+  }
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: #fff;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .close-btn:hover {
+    color: #d4af37;
+  }
+</style>
+</head>
+<body>
+
+<!-- Audio Player -->
+<audio class="album-music" controls autoplay loop>
+  <source src="piano music can be so simple, yet so beautiful.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<div class="album-scene" id="album">
+  
+  <!-- Static Base (Page 8) -->
+  <div class="page-right">
+    <div class="layout-grid">
+      <div class="top-section">
+        <div class="photo-frame"><img src="20260724_114511.jpg" alt="Photo 15"></div>
+        <div class="text-block">
+          <input type="text" class="page-title" style="text-align: right;" value="Memories" placeholder="">
+          <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+        </div>
+      </div>
+      <div class="bottom-section">
+        <div class="text-block">
+          <input type="text" class="page-title" value="" placeholder="">
+          <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+        </div>
+        <div class="photo-frame"><img src="20260724_115230.jpg" alt="Photo 16"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaf 4 (Page 6 & Page 7) -->
+  <div class="leaf" id="leaf4">
+    <!-- Front Face (Page 6) -->
+    <div class="face front" onclick="flipLeaf('leaf4', true, event)">
+      <div class="layout-grid">
+        <div class="top-section">
+          <div class="photo-frame"><img src="20260724_115523.jpg" alt="Photo 11"></div>
+          <div class="text-block">
+            <input type="text" class="page-title" style="text-align: right;" value="Adventures" placeholder="">
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+          </div>
+        </div>
+        <div class="bottom-section">
+          <div class="text-block">
+            <input type="text" class="page-title" value="" placeholder="">
+            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+          </div>
+          <div class="photo-frame"><img src="20260724_122534.jpg" alt="Photo 12"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Back Face (Page 7) -->
+    <div class="face back" onclick="flipLeaf('leaf4', false, event)">
+      <div class="layout-grid">
+        <div class="top-section">
+          <div class="photo-frame"><img src="20260724_123133.jpg" alt="Photo 13"></div>
+          <div class="text-block">
+            <input type="text" class="page-title" style="text-align: right;" value="" placeholder="">
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+          </div>
+        </div>
+        <div class="bottom-section">
+          <div class="text-block">
+            <input type="text" class="page-title" value="" placeholder="">
+            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+          </div>
+          <div class="photo-frame"><img src="20260724_112957.jpg" alt="Photo 14"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaf 3 (Page 4 & Page 5) -->
+  <div class="leaf" id="leaf3">
+    <!-- Front Face (Page 4) -->
+    <div class="face front" onclick="flipLeaf('leaf3', true, event)">
+      <div class="layout-grid">
+        <div class="top-section">
+          <div class="photo-frame"><img src="20260724_120018.jpg" alt="Photo 7"></div>
+          <div class="text-block">
+            <input type="text" class="page-title" style="text-align: right;" value="Good Times" placeholder="">
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+          </div>
+        </div>
+        <div class="bottom-section">
+          <div class="text-block">
+            <input type="text" class="page-title" value="" placeholder="">
+            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+          </div>
+          <div class="photo-frame"><img src="20260724_120100.jpg" alt="Photo 8"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Back Face (Page 5) -->
+    <div class="face back" onclick="flipLeaf('leaf3', false, event)">
+      <div class="layout-grid">
+        <div class="top-section">
+          <div class="photo-frame"><img src="20260724_131226.jpg" alt="Photo 9"></div>
+          <div class="text-block">
+            <input type="text" class="page-title" style="text-align: right;" value="" placeholder="">
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+          </div>
+        </div>
+        <div class="bottom-section">
+          <div class="text-block">
+            <input type="text" class="page-title" value="" placeholder="">
+            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+          </div>
+          <div class="photo-frame"><img src="20260724_131918.jpg" alt="Photo 10"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaf 2 (Page 2 & Page 3) -->
+  <div class="leaf" id="leaf2">
+    <!-- Front Face (Page 2) -->
+    <div class="face front" onclick="flipLeaf('leaf2', true, event)">
+      <div class="layout-grid">
+        <div class="top-section">
+          <div class="photo-frame"><img src="20260724_132123.jpg" alt="Photo 3"></div>
+          <div class="text-block">
+            <input type="text" class="page-title" style="text-align: right;" value="Moments" placeholder="">
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+          </div>
+        </div>
+        <div class="bottom-section">
+          <div class="text-block">
+            <input type="text" class="page-title" value="" placeholder="">
+            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+          </div>
+          <div class="photo-frame"><img src="20260724_131347.jpg" alt="Photo 4"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Back Face (Page 3) -->
+    <div class="face back" onclick="flipLeaf('leaf2', false, event)">
+      <div class="layout-grid">
+        <div class="top-section">
+          <div class="photo-frame"><img src="20260724_125440.jpg" alt="Photo 5"></div>
+          <div class="text-block">
+            <input type="text" class="page-title" style="text-align: right;" value="" placeholder="">
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+          </div>
+        </div>
+        <div class="bottom-section">
+          <div class="text-block">
+            <input type="text" class="page-title" value="" placeholder="">
+            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+          </div>
+          <div class="photo-frame"><img src="20260724_125930.jpg" alt="Photo 6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaf 1 (Cover & Page 1) -->
+  <div class="leaf" id="leaf1">
+    
+    <!-- Front Face (Yale Blue Cover) -->
+    <div class="face front cover" onclick="flipLeaf('leaf1', true, event)">
+      <div class="spiral-binding"></div>
+      <div class="corner corner-top-right"></div>
+      <div class="corner corner-bottom-right"></div>
+      
+      <div class="cover-photo-slot">
+        <!-- Developer will add the front image here -->
+        <img src="yale-university-300x244.jpg" alt="Cover Photo">
+      </div>
+      
+      <h1 class="cover-title">Yale University</h1>
+      <input type="text" class="cover-date-input" placeholder="Connecticut - 07/24/2026">
+    </div>
+
+    <!-- Back Face (Page 1) -->
+    <div class="face back" onclick="flipLeaf('leaf1', false, event)">
+      <div class="layout-grid">
+        <div class="top-section">
+          <div class="photo-frame"><img src="20260724_112828.jpg" alt="Photo 1"></div>
+          <div class="text-block">
+            <input type="text" class="page-title" style="text-align: right;" value="" placeholder="">
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+          </div>
+        </div>
+        <div class="bottom-section">
+          <div class="text-block">
+            <input type="text" class="page-title" value="" placeholder="">
+            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+          </div>
+          <div class="photo-frame"><img src="20260724_113836.jpg" alt="Photo 2"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Image Lightbox Modal -->
+<div id="imageModal" class="modal" onclick="closeModal()">
+  <span class="close-btn">&times;</span>
+  <img class="modal-content" id="modalImg">
+</div>
+
+<script>
+  let currentZ = 10; 
+
+  function flipLeaf(leafId, forward, event) {
+    if(event) {
+      // Prevent the page from flipping if the user is clicking into an input field or textarea
+      const targetTag = event.target.tagName.toLowerCase();
+      if(targetTag === 'input' || targetTag === 'textarea') {
+        return; 
+      }
+      event.stopPropagation(); 
+    }
+    const leaf = document.getElementById(leafId);
+    
+    currentZ++;
+    leaf.style.zIndex = currentZ;
+
+    if(forward) {
+      leaf.classList.add('flipped');
+    } else {
+      leaf.classList.remove('flipped');
+    }
+  }
+
+  // Set up click events for all images to open the modal
+  document.querySelectorAll('.photo-frame img, .cover-photo-slot img').forEach(img => {
+    img.addEventListener('click', function(e) {
+      e.stopPropagation(); // Prevents the album page from flipping when clicking the image
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImg');
+      modalImg.src = this.src;
+      modal.classList.add('active');
+    });
+  });
+
+  // Function to close the modal
+  function closeModal() {
+    document.getElementById('imageModal').classList.remove('active');
+  }
+</script>
+
+</body>
+</html>
