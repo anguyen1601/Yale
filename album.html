@@ -527,6 +527,24 @@
 <script>
   let currentZ = 10; 
 
+  document.addEventListener('DOMContentLoaded', () => {
+    const music = document.querySelector('.album-music');
+    if (music) {
+      music.volume = 0.4; // Sets the volume immediately on load/refresh
+      
+      music.play().catch(() => {
+        // If blocked by the browser, play on the user's very first click anywhere on the page
+        const startOnInteraction = () => {
+          music.play();
+          document.removeEventListener('click', startOnInteraction);
+          document.removeEventListener('keydown', startOnInteraction);
+        };
+        document.addEventListener('click', startOnInteraction);
+        document.addEventListener('keydown', startOnInteraction);
+      });
+    }
+  });
+
   function flipLeaf(leafId, forward, event) {
     if(event) {
       // Prevent the page from flipping if the user is clicking into an input field or textarea
@@ -536,6 +554,13 @@
       }
       event.stopPropagation(); 
     }
+    
+    const music = document.querySelector('.album-music');
+    if (music && music.paused) {
+      music.volume = 0.4;
+      music.play().catch(error => console.log("Autoplay blocked:", error));
+    }
+
     const leaf = document.getElementById(leafId);
     
     currentZ++;
@@ -567,3 +592,4 @@
 
 </body>
 </html>
+
