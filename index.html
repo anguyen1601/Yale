@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0014)about:internet -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yale Harkness Tower Postcard</title>
 <style>
@@ -260,12 +260,12 @@
 <body>
 
 <div class="stage">
-  <div class="postcard" id="postcard" onclick="toggleFlip(event)">
+  <div class="postcard flipped" id="postcard" onclick="toggleFlip(event)">
     
     <!-- Front of Postcard -->
     <div class="face front">
       <!-- Fixed Front Image utilizing the provided reference file -->
-      <img src="1786740726868.png" alt="Yale Harkness Tower">
+      <img src="./Yale Harkness Tower Postcard_files/1786740726868.png" alt="Yale Harkness Tower">
     </div>
     
     <!-- Back of Postcard -->
@@ -280,7 +280,7 @@
           a recently deceased alumnus, Charles W. Harkness.
         </div>
         <div class="photo-credit">
-          TM &copy; Photo: Thomas P. Benincas, Jr. &copy;
+          TM © Photo: Thomas P. Benincas, Jr. ©
         </div>
         
         <div class="canada-stamp">
@@ -293,7 +293,7 @@
       </div>
       
       <div class="back-center">
-        <div class="vertical-text">New England Photo; P.O. Box 626; Madison, CT 06443 &bull; www.nephotoct.com</div>
+        <div class="vertical-text">New England Photo; P.O. Box 626; Madison, CT 06443 • www.nephotoct.com</div>
       </div>
       
       <div class="back-right">
@@ -301,7 +301,7 @@
         <div class="qr-container">
           <!-- Placeholder URL directing to Google Drive Video -->
           <a href="https://anguyen1601.github.io/Yale/album.html" target="_blank" title="Scan or click to view video">
-            <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://anguyen1601.github.io/Yale/album.html" alt="QR Code Link to Drive">
+            <img class="qr-code" src="./Yale Harkness Tower Postcard_files/saved_resource" alt="QR Code Link to Drive">
           </a>
           <div class="barcode-sub">SCAN TO VIEW</div>
         </div>
@@ -310,10 +310,10 @@
         
         <!-- Interactive Address Lines -->
         <div class="address-lines">
-          <input type="text" class="address-input" placeholder="Name">
-          <input type="text" class="address-input" placeholder="Address">
-          <input type="text" class="address-input" placeholder="City, State, Zip">
-          <input type="text" class="address-input" placeholder="Country">
+          <input type="text" class="address-input" placeholder="To My Special">
+          <input type="text" class="address-input" placeholder="Thi Huỳnh">
+          <input type="text" class="address-input" placeholder="">
+          <input type="text" class="address-input" placeholder="">
         </div>
       </div>
       
@@ -344,7 +344,36 @@
     }
     document.getElementById('postcard').classList.toggle('flipped');
   }
+
+  // LocalStorage Persistence Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const messageArea = document.querySelector('.message-area');
+    const addressInputs = document.querySelectorAll('.address-input');
+
+    // 1. Load saved data when the page opens
+    if (localStorage.getItem('postcard_message')) {
+      messageArea.value = localStorage.getItem('postcard_message');
+    }
+    
+    addressInputs.forEach((input, index) => {
+      const savedValue = localStorage.getItem(`postcard_input_${index}`);
+      if (savedValue !== null) {
+        input.value = savedValue;
+      }
+    });
+
+    // 2. Save data automatically as the user types
+    messageArea.addEventListener('input', () => {
+      localStorage.setItem('postcard_message', messageArea.value);
+    });
+
+    addressInputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        localStorage.setItem(`postcard_input_${index}`, input.value);
+      });
+    });
+  });
 </script>
 
-</body>
-</html>
+
+</body></html>
