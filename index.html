@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0014)about:internet -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yale Harkness Tower Postcard</title>
 <style>
@@ -260,12 +260,13 @@
 <body>
 
 <div class="stage">
-  <div class="postcard flipped" id="postcard" onclick="toggleFlip(event)">
+  <!-- ISSUE 2 FIXED: Removed "flipped" class so it starts on the front -->
+  <div class="postcard" id="postcard" onclick="toggleFlip(event)">
     
     <!-- Front of Postcard -->
     <div class="face front">
-      <!-- Fixed Front Image utilizing the provided reference file -->
-      <img src="./Yale Harkness Tower Postcard_files/1786740726868.png" alt="Yale Harkness Tower">
+      <!-- ISSUE 1 FIXED: Changed path to just the image name -->
+      <img src="1786740726868.png" alt="Yale Harkness Tower">
     </div>
     
     <!-- Back of Postcard -->
@@ -280,7 +281,7 @@
           a recently deceased alumnus, Charles W. Harkness.
         </div>
         <div class="photo-credit">
-          TM © Photo: Thomas P. Benincas, Jr. ©
+          TM &copy; Photo: Thomas P. Benincas, Jr. &copy;
         </div>
         
         <div class="canada-stamp">
@@ -289,21 +290,27 @@
         </div>
 
         <!-- Interactive Message Box -->
-        <textarea class="message-area" placeholder="Type your message here..."></textarea>
+        <textarea class="message-area" placeholder="Type your message here...">New Haven, Connecticut – 07/24/2025
+
+Điểm đến hôm nay trong chuyến đi là Đại học Yale, tọa lạc tại New Haven – thành phố lớn thứ ba của Connecticut. Được thành lập năm 1701 với tên gọi Collegiate School, trường đổi tên thành Yale University vào năm 1718 để ghi nhận những đóng góp của Elihu Yale.
+Ngày nay, Yale là một trong những trường đại học lâu đời và danh tiếng nhất nước Mỹ, đồng thời là “kình địch” truyền kiếp của Harvard.
+Mời em cùng anh xem qua một vài bức hình anh đã chụp nhé.
+
+Fun fact: Nếu không có sự “ra tay” của Elihu Yale, ngôi trường có thể đã mang tên Dummer University – nghe khá giống “Dumber University” 😄</textarea>
       </div>
       
       <div class="back-center">
-        <div class="vertical-text">New England Photo; P.O. Box 626; Madison, CT 06443 • www.nephotoct.com</div>
+        <div class="vertical-text">New England Photo; P.O. Box 626; Madison, CT 06443 &bull; www.nephotoct.com</div>
       </div>
       
       <div class="back-right">
-        <!-- Interactive QR Code -->
+        <!-- Interactive Link Section -->
         <div class="qr-container">
-          <!-- Placeholder URL directing to Google Drive Video -->
           <a href="https://anguyen1601.github.io/Yale/album.html" target="_blank" title="Scan or click to view video">
-            <img class="qr-code" src="./Yale Harkness Tower Postcard_files/saved_resource" alt="QR Code Link to Drive">
+            <!-- ISSUE 3 FIXED: Replaced broken QR code with the Click Here stamp URL -->
+            <img class="qr-code" src="https://thumbs.dreamstime.com/b/click-here-blue-grunge-round-stamp-459342182.jpg" alt="Click Here to View Video">
           </a>
-          <div class="barcode-sub">SCAN TO VIEW</div>
+          <div class="barcode-sub">CLICK TO VIEW</div>
         </div>
         
         <div class="post-card-title">Post Card</div>
@@ -328,12 +335,12 @@
 
 <div class="instructions">
   Click the edges of the postcard to flip.<br>
-  (Clicking the text fields or QR code will not flip the card so you can interact with them!)
+  (Clicking the text fields or stamps will not flip the card so you can interact with them!)
 </div>
 
 <script>
   function toggleFlip(e) {
-    // Prevent flip if clicking inside inputs, textareas, or links/QR code
+    // Prevent flip if clicking inside inputs, textareas, or links
     if (
       e.target.tagName === 'TEXTAREA' || 
       e.target.tagName === 'INPUT' || 
@@ -375,5 +382,5 @@
   });
 </script>
 
-
-</body></html>
+</body>
+</html>
