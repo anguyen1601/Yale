@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0071)file:///C:/Users/An%20Nguyen/Desktop/Virtual%20Postcard/Yale/album.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Virtual Photo Album</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Playfair+Display:ital,wght@0,400;1,600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,600&display=swap');
 
   * {
     box-sizing: border-box;
@@ -152,7 +153,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    cursor: pointer; /* Added cursor for clickability */
+    cursor: pointer;
   }
   .cover-title {
     color: #d4af37;
@@ -161,7 +162,7 @@
     text-transform: uppercase;
   }
 
-  /* New: Cover Date Input Field */
+  /* Cover Date Input Field */
   .cover-date-input {
     background: transparent;
     border: none;
@@ -218,7 +219,7 @@
     background: #fff;
     padding: 8px 8px 22px 8px;
     box-shadow: 2px 4px 10px rgba(0,0,0,0.15);
-    width: 48%; /* Larger photos */
+    width: 48%;
     transform: rotate(-2deg);
     transition: transform 0.3s;
   }
@@ -235,7 +236,7 @@
     aspect-ratio: 1/1;
     object-fit: cover;
     background: #e0e0e0;
-    cursor: pointer; /* Added cursor for clickability */
+    cursor: pointer;
   }
 
   .text-block {
@@ -246,27 +247,30 @@
     padding: 5px;
   }
 
+  /* Title font size ("Moments") remains unchanged at 15px */
   .page-title {
     font-family: 'Caveat', cursive;
-    font-size: 32px;
+    font-size: 35px;
     color: #333;
     border: none;
     background: transparent;
     outline: none;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
 
+  /* Memory Input text reduced to prevent scrambling */
   .scrapbook-text {
-    font-family: 'Caveat', cursive;
-    font-size: 20px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 18px; /* Set smaller to fit long paragraphs perfectly */
     color: #555;
     background: transparent;
     border: none;
     resize: none;
     width: 100%;
-    height: 55px;
+    height: 140px;
     outline: none;
-    line-height: 1.4;
+    line-height: 1.2; 
+    text-align: center;/* Tightened line height for the smaller font */
   }
   .scrapbook-text::placeholder {
     color: #b0a89d;
@@ -323,7 +327,7 @@
 <body>
 
 <!-- Audio Player -->
-<audio class="album-music" controls autoplay loop>
+<audio class="album-music" controls="" autoplay="" loop="">
   <source src="piano music can be so simple, yet so beautiful.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
@@ -334,160 +338,195 @@
   <div class="page-right">
     <div class="layout-grid">
       <div class="top-section">
-        <div class="photo-frame"><img src="20260724_114511.jpg" alt="Photo 15"></div>
+        <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_115230.jpg" alt="Photo 15"></div>
         <div class="text-block">
           <input type="text" class="page-title" style="text-align: right;" value="Memories" placeholder="">
-          <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+          <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory...">Trung tâm sinh hoạt 
+    Schwarzman Center  
+
+</textarea>
         </div>
       </div>
       <div class="bottom-section">
         <div class="text-block">
           <input type="text" class="page-title" value="" placeholder="">
-          <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+          <textarea class="scrapbook-text" placeholder="Write memory...">Ngã tư Elm Street 
+Xa xa là tháp
+ chuông Harkness </textarea>
         </div>
-        <div class="photo-frame"><img src="20260724_115230.jpg" alt="Photo 16"></div>
+        <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_123133.jpg" alt="Photo 16"></div>
       </div>
     </div>
   </div>
 
   <!-- Leaf 4 (Page 6 & Page 7) -->
-  <div class="leaf" id="leaf4">
+  <div class="leaf flipped" id="leaf4" style="z-index: 75;">
     <!-- Front Face (Page 6) -->
-    <div class="face front" onclick="flipLeaf('leaf4', true, event)">
+    <div class="face front" onclick="flipLeaf(&#39;leaf4&#39;, true, event)">
       <div class="layout-grid">
         <div class="top-section">
-          <div class="photo-frame"><img src="20260724_115523.jpg" alt="Photo 11"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_125440.jpg" alt="Photo 11"></div>
           <div class="text-block">
             <input type="text" class="page-title" style="text-align: right;" value="Adventures" placeholder="">
-            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory...">Irving S. Gilmore    
+Music Library      
+</textarea>
           </div>
         </div>
         <div class="bottom-section">
           <div class="text-block">
             <input type="text" class="page-title" value="" placeholder="">
-            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" placeholder="Write memory...">Góc khác của Bass Library nơi tri thức được sắp đặt để chờ khám phá. 
+</textarea>
           </div>
-          <div class="photo-frame"><img src="20260724_122534.jpg" alt="Photo 12"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_131347.jpg" alt="Photo 12"></div>
         </div>
       </div>
     </div>
     <!-- Back Face (Page 7) -->
-    <div class="face back" onclick="flipLeaf('leaf4', false, event)">
+    <div class="face back" onclick="flipLeaf(&#39;leaf4&#39;, false, event)">
       <div class="layout-grid">
         <div class="top-section">
-          <div class="photo-frame"><img src="20260724_123133.jpg" alt="Photo 13"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_132123.jpg" alt="Photo 13"></div>
           <div class="text-block">
             <input type="text" class="page-title" style="text-align: right;" value="" placeholder="">
-            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory...">    Phòng đọc sách      
+Linonia and Brothers  
+"Phòng khách của thư viện" 
+</textarea>
           </div>
         </div>
         <div class="bottom-section">
           <div class="text-block">
             <input type="text" class="page-title" value="" placeholder="">
-            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" placeholder="Write memory...">Hội trường Woolsey
+1901 
+Dấu ấn 200 năm 
+thành lập Yale </textarea>
           </div>
-          <div class="photo-frame"><img src="20260724_112957.jpg" alt="Photo 14"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_112957.jpg" alt="Photo 14"></div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Leaf 3 (Page 4 & Page 5) -->
-  <div class="leaf" id="leaf3">
+  <div class="leaf flipped" id="leaf3" style="z-index: 74;">
     <!-- Front Face (Page 4) -->
-    <div class="face front" onclick="flipLeaf('leaf3', true, event)">
+    <div class="face front" onclick="flipLeaf(&#39;leaf3&#39;, true, event)">
       <div class="layout-grid">
         <div class="top-section">
-          <div class="photo-frame"><img src="20260724_120018.jpg" alt="Photo 7"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_120018.jpg" alt="Photo 7"></div>
           <div class="text-block">
             <input type="text" class="page-title" style="text-align: right;" value="Good Times" placeholder="">
-            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory...">Thánh đường Tri Thức   
+Cathedral of Learning  
+Nổi bật với           
+bức tranh "Alma Mater" 
+   
+  </textarea>
           </div>
         </div>
         <div class="bottom-section">
           <div class="text-block">
             <input type="text" class="page-title" value="" placeholder="">
-            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" placeholder="Write memory...">Lối vào chính của 
+thư viện Sterling
+Cánh cửa dẫn vào chốn
+thiêng liêng của Tri Thức
+</textarea>
           </div>
-          <div class="photo-frame"><img src="20260724_120100.jpg" alt="Photo 8"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_120100.jpg" alt="Photo 8"></div>
         </div>
       </div>
     </div>
     <!-- Back Face (Page 5) -->
-    <div class="face back" onclick="flipLeaf('leaf3', false, event)">
+    <div class="face back" onclick="flipLeaf(&#39;leaf3&#39;, false, event)">
       <div class="layout-grid">
         <div class="top-section">
-          <div class="photo-frame"><img src="20260724_131226.jpg" alt="Photo 9"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_131226.jpg" alt="Photo 9"></div>
           <div class="text-block">
             <input type="text" class="page-title" style="text-align: right;" value="" placeholder="">
-            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."> Một góc Bass Library
+Thư viện dưới lòng đất           mang nét hiện đại đối lập   nét cổ kính của Sterling  </textarea>
           </div>
         </div>
         <div class="bottom-section">
           <div class="text-block">
             <input type="text" class="page-title" value="" placeholder="">
-            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" placeholder="Write memory...">Franke Family Digital Human Laboratory
+Nơi giao thoa giữa 
+hoài cổ và hiện đại</textarea>
           </div>
-          <div class="photo-frame"><img src="20260724_131918.jpg" alt="Photo 10"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_131918.jpg" alt="Photo 10"></div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Leaf 2 (Page 2 & Page 3) -->
-  <div class="leaf" id="leaf2">
+  <div class="leaf flipped" id="leaf2" style="z-index: 73;">
     <!-- Front Face (Page 2) -->
-    <div class="face front" onclick="flipLeaf('leaf2', true, event)">
+    <div class="face front" onclick="flipLeaf(&#39;leaf2&#39;, true, event)">
       <div class="layout-grid">
         <div class="top-section">
-          <div class="photo-frame"><img src="20260724_132123.jpg" alt="Photo 3"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_114511.jpg" alt="Photo 3"></div>
           <div class="text-block">
             <input type="text" class="page-title" style="text-align: right;" value="Moments" placeholder="">
-            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory...">Góc khác trong khu    
+ nội trú Silliman College 
+  `1940              </textarea>
           </div>
         </div>
         <div class="bottom-section">
           <div class="text-block">
             <input type="text" class="page-title" value="" placeholder="">
-            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" placeholder="Write memory...">Mục sư Abraham Pierson
+Hiệu trưởng đầu tiên của
+Collegiate School
+1701-1707</textarea>
           </div>
-          <div class="photo-frame"><img src="20260724_131347.jpg" alt="Photo 4"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_122534.jpg" alt="Photo 4"></div>
         </div>
       </div>
     </div>
     <!-- Back Face (Page 3) -->
-    <div class="face back" onclick="flipLeaf('leaf2', false, event)">
+    <div class="face back" onclick="flipLeaf(&#39;leaf2&#39;, false, event)">
       <div class="layout-grid">
         <div class="top-section">
-          <div class="photo-frame"><img src="20260724_125440.jpg" alt="Photo 5"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_115523.jpg" alt="Photo 5"></div>
           <div class="text-block">
             <input type="text" class="page-title" style="text-align: right;" value="" placeholder="">
-            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory...">Thư viện              
+Sterling Memorial Library  1931                 
+Nổi tiếng với tháp sách     
+16 tầng ở phía sau.         </textarea>
           </div>
         </div>
         <div class="bottom-section">
           <div class="text-block">
             <input type="text" class="page-title" value="" placeholder="">
-            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" placeholder="Write memory...">Phòng đọc sách Starr
+Khu vực chính của thư viện
+Lấy cảm hứng từ nhà ăn của các tu viện. </textarea>
           </div>
-          <div class="photo-frame"><img src="20260724_125930.jpg" alt="Photo 6"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_125930.jpg" alt="Photo 6"></div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Leaf 1 (Cover & Page 1) -->
-  <div class="leaf" id="leaf1">
+  <div class="leaf flipped" id="leaf1" style="z-index: 72;">
     
     <!-- Front Face (Yale Blue Cover) -->
-    <div class="face front cover" onclick="flipLeaf('leaf1', true, event)">
+    <div class="face front cover" onclick="flipLeaf(&#39;leaf1&#39;, true, event)">
       <div class="spiral-binding"></div>
       <div class="corner corner-top-right"></div>
       <div class="corner corner-bottom-right"></div>
       
       <div class="cover-photo-slot">
-        <!-- Developer will add the front image here -->
-        <img src="yale-university-300x244.jpg" alt="Cover Photo">
+        <img src="./Virtual Photo Album_files/yale-university-300x244.jpg" alt="Cover Photo">
       </div>
       
       <h1 class="cover-title">Yale University</h1>
@@ -495,21 +534,27 @@
     </div>
 
     <!-- Back Face (Page 1) -->
-    <div class="face back" onclick="flipLeaf('leaf1', false, event)">
+    <div class="face back" onclick="flipLeaf(&#39;leaf1&#39;, false, event)">
       <div class="layout-grid">
         <div class="top-section">
-          <div class="photo-frame"><img src="20260724_112828.jpg" alt="Photo 1"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_112828.jpg" alt="Photo 1"></div>
           <div class="text-block">
             <input type="text" class="page-title" style="text-align: right;" value="" placeholder="">
-            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" style="text-align: right;" placeholder="Write memory...">Tòa nhà Sheffield Sterling Strathcona Hall        
+ 1931-1932           
+
+
+</textarea>
           </div>
         </div>
         <div class="bottom-section">
           <div class="text-block">
             <input type="text" class="page-title" value="" placeholder="">
-            <textarea class="scrapbook-text" placeholder="Write memory..."></textarea>
+            <textarea class="scrapbook-text" placeholder="Write memory...">Một góc trường nội trú 
+Silliman College
+1940</textarea>
           </div>
-          <div class="photo-frame"><img src="20260724_113836.jpg" alt="Photo 2"></div>
+          <div class="photo-frame"><img src="./Virtual Photo Album_files/20260724_113836.jpg" alt="Photo 2"></div>
         </div>
       </div>
     </div>
@@ -520,8 +565,8 @@
 
 <!-- Image Lightbox Modal -->
 <div id="imageModal" class="modal" onclick="closeModal()">
-  <span class="close-btn">&times;</span>
-  <img class="modal-content" id="modalImg">
+  <span class="close-btn">×</span>
+  <img class="modal-content" id="modalImg" src="./Virtual Photo Album_files/20260724_123133.jpg">
 </div>
 
 <script>
@@ -530,10 +575,9 @@
   document.addEventListener('DOMContentLoaded', () => {
     const music = document.querySelector('.album-music');
     if (music) {
-      music.volume = 0.4; // Sets the volume immediately on load/refresh
+      music.volume = 0.4; 
       
       music.play().catch(() => {
-        // If blocked by the browser, play on the user's very first click anywhere on the page
         const startOnInteraction = () => {
           music.play();
           document.removeEventListener('click', startOnInteraction);
@@ -543,22 +587,60 @@
         document.addEventListener('keydown', startOnInteraction);
       });
     }
+
+    // Ensures user inputs are directly written to the DOM so they carry over when the page is downloaded/saved
+    const coverDateInput = document.querySelector('.cover-date-input');
+    if (coverDateInput) {
+      if (localStorage.getItem('album_cover_date') !== null) {
+        coverDateInput.value = localStorage.getItem('album_cover_date');
+        coverDateInput.setAttribute('value', coverDateInput.value); 
+      }
+      coverDateInput.addEventListener('input', () => {
+        localStorage.setItem('album_cover_date', coverDateInput.value);
+        coverDateInput.setAttribute('value', coverDateInput.value); 
+      });
+    }
+
+    const pageTitles = document.querySelectorAll('.page-title');
+    pageTitles.forEach((input, index) => {
+      const saved = localStorage.getItem(`album_title_${index}`);
+      if (saved !== null) {
+        input.value = saved;
+        input.setAttribute('value', input.value); 
+      }
+      input.addEventListener('input', () => {
+        localStorage.setItem(`album_title_${index}`, input.value);
+        input.setAttribute('value', input.value); 
+      });
+    });
+
+    const scrapbookTexts = document.querySelectorAll('.scrapbook-text');
+    scrapbookTexts.forEach((textarea, index) => {
+      const saved = localStorage.getItem(`album_text_${index}`);
+      if (saved !== null) {
+        textarea.value = saved;
+        textarea.innerHTML = textarea.value; 
+      }
+      textarea.addEventListener('input', () => {
+        localStorage.setItem(`album_text_${index}`, textarea.value);
+        textarea.innerHTML = textarea.value; 
+      });
+    });
   });
 
   function flipLeaf(leafId, forward, event) {
     if(event) {
-      // Prevent the page from flipping if the user is clicking into an input field or textarea
       const targetTag = event.target.tagName.toLowerCase();
       if(targetTag === 'input' || targetTag === 'textarea') {
         return; 
       }
       event.stopPropagation(); 
     }
-    
+
     const music = document.querySelector('.album-music');
     if (music && music.paused) {
       music.volume = 0.4;
-      music.play().catch(error => console.log("Autoplay blocked:", error));
+      music.play().catch(error => console.log("Playback error:", error));
     }
 
     const leaf = document.getElementById(leafId);
@@ -573,10 +655,9 @@
     }
   }
 
-  // Set up click events for all images to open the modal
   document.querySelectorAll('.photo-frame img, .cover-photo-slot img').forEach(img => {
     img.addEventListener('click', function(e) {
-      e.stopPropagation(); // Prevents the album page from flipping when clicking the image
+      e.stopPropagation(); 
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImg');
       modalImg.src = this.src;
@@ -584,12 +665,10 @@
     });
   });
 
-  // Function to close the modal
   function closeModal() {
     document.getElementById('imageModal').classList.remove('active');
   }
 </script>
 
-</body>
-</html>
 
+</body></html>
